@@ -32,7 +32,7 @@ The "HardFork Cafe project" aims to bridge the gap between fully decentralised a
 	1. Launch ganache on port 8545
 	2. Deploy the contract: truffle migrate --compile-all --reset
 	3. Open your browser and set metamask on Localhost 8545
-	4. Launch the local dev server: npm run dev (the URL http://localhost:3000/ should be opened)
+	4. Launch the local dev server with the command: npm run dev (the URL http://localhost:3000/ should be opened)
 	5. import the ganache addresses in metamask
 	6. set your metamask account to the 1rst address of ganache. On the webpage, you should see that your name (on the "current account panel") is "Bob the manager"
 	7. All the information you see are taking from the blockchain NB: some functionalities may not fully working but not necessary for the grade).
