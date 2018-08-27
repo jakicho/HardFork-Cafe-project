@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Election Results</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      style="width: 1250px;"
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h4><center>BAR INFORMATION (fixed at creation)</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><b>name of the bar</b></td>
+                                    <th id="barName"></th>
+                                </tr>
+                                <tr>
+                                    <td><b>value of the bar (in eth)</b></td>
+                                    <td id="assetValue"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>maximum shares/owners</b></td>
+                                    <td id="maxShares"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>share price (in eth)</b></td>
+                                    <td id="sharePrice"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>maximum employees</b></td>
+                                    <td id="maxEmployees"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>manager</b></td>
+                                    <td id="managerAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>government</b></td>
+                                    <td id="govAddress"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <center>
+                        <p><i>* for this prototype: 1 ether = $291</i></p>
+                        <p id="govWarning"><i>* The government role has not been taken yet.</i></p>
+                        </center>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h4><center>Values defined by the economic activities:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><b>shares available</b></td>
+                                    <td id="sharesNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>total amount held</b></td>
+                                    <td id="balance"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>treasury</b></td>
+                                    <td id="treasury"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Jobs available</b></td>
+                                    <td id="jobsNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Beer units in stock</b></td>
+                                    <td id="beerNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Wine units in stock</b></td>
+                                    <td id="wineNumber"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <ul>
+                            <li>*total amount held: include salaries, dividends, taxes that are not withdrawn yet.</li>
+                            <li>*treasury: available amount to buy refill the stocks.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h4><center>Values set by the manager:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><b>Price of a pinte of beer</b></td>
+                                    <td id="beerPrice"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Price of a glass of wine</b></td>
+                                    <td id="winePrice"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Salary Ratio</b></td>
+                                    <td id="salaryRatio"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Dividends Ratio</b></td>
+                                    <td id="dividendRatio"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">*values are updated when the manager changes them</div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h4><center>Value set by the government:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><b>Government Taxes</b></td>
+                                    <td id="taxRatio"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              <div id="loader">
+                <p class="text-center">Loading...</p>
+              </div>
+              <!--
+              <div id="content" style="display: none;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Votes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dynamicElement">
+                  </tbody>
+                </table>
+                <form onSubmit="App.castVote(); return false;">
+                  <div class="form-group">
+                    <label for="candidatesSelect">Select Candidate</label>
+                    <select class="form-control" id="candidatesSelect">
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Vote</button>
+                  <hr />
+                </form>
+              </div>
+                -->
+            </div>
+            <div class="col-lg-4">
+                <div class="panel panel-warning">
+                    <div class="panel-heading"><h4><center>The vision of this project is to propose a way for communities to take ownership & invest in their local businesses.</center></h4></div>
+                    <div class="panel-footer">
+                    <p><center><b>Description:</b>
+                        This is a prototype of a tokenized brick & mortar business. It is not fully decentralised but it aims to be <b>fully transparent</b>.
+                        It allows people to see in real time how much money the business is making, where the money is being allocated by the manager & how much taxes are being collected by the government.
+                        In addition to working for this company, anybody can buy a share of this business (one share per person).</center></p>
+                        <i>* This platform manages 6 different roles. Use another address & reload the page to change role.</i>
+                    </div>
+                    <table class="table">
+                        <tr class="active">
+                            <td>MANAGER</td>
+                            <td>GOVERNMENT</td>
+                            <td>CO-OWNER</td>
+                        </tr>
+                        <tr class="active">
+                            <td>EMPLOYEE</td>
+                            <td>CUSTOMER</td>
+                            <td>SUPPLIER</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <center><b>ALL ORDERS (Customers waiting to be served)</b></center>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th><i>PENDING ORDER</i></th>
+                                    <td id="mainPendingOrders">90</td>
+                                </tr>
+                                <tr>
+                                    <td><i>ORDER SERVED</i></td>
+                                    <td id="mainOrdersServed">90</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        Orders are put by customers. Only an employee can serve the customers.
+                    </div>
+                </div>
+                <div class="panel panel-success class">
+                    <div class="panel-heading"><h4><center>REVENUE ALLOCATION</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>A pinte of beer</th>
+                                <th>A glass of wine</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>Selling Price</b></td>
+                                    <th id="distrBeerPrice"></th>
+                                    <th id="distrWinePrice"></th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><i>For the selling prices above, here is where the money goes:</i></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Government Taxes</b></td>
+                                    <td id="distrBeerTax"></td>
+                                    <td id="distrWineTax"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Salary</b></td>
+                                    <td id="distrBeerSalary"></td>
+                                    <td id="distrWineSalary"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Dividends</b></td>
+                                    <td id="distrBeerDividend"></td>
+                                    <td id="distrWineDividend"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Dividends per share</b></td>
+                                    <td id="distrBeerDivShare">TODO</td>
+                                    <td id="distrWineDivShare">TODO</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Treasury</b></td>
+                                    <td id="distrBeerTreasury"></td>
+                                    <td id="distrWineTreasury"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <p><center><i>Values are calculated according to those set by the manager & the government with an ether price at $291.</i></center></p>
+                        <p><center><i>Each sales split the revenues accordingly. Each participant (co-owner, government, employees) can withdraw from the smartcontract their money at any time.</i></center></p>
+                    </div>
+                </div>
+            </div>
+            <div id="actionsPanel" class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>YOUR CURRENT ACCOUNT</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td><b>Your role*</b></td>
+                                    <th id="role"></th>
+                                </tr>
+                                <tr>
+                                    <td><b>Your name</b></td>
+                                    <td id="yourName"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Your address</b></td>
+                                    <td id="currentAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Your funds*</b></td>
+                                    <td id="yourFunds">$0</td>
+                                </tr>
+                                <tr>
+                                    <td><i>*held in the smartcontract</i></td>
+                                    <td><button id="withdrawFunds" type="button" class="btn btn-primary">Withdraw Profit</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <center><b>YOUR ORDERS</b></center>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th><i>Your pending order</i></th>
+                                    <th id="customerPendingOrders">0</th>
+                                </tr>
+                                <tr>
+                                    <td><i>Glass of wine</i></td>
+                                    <td>served</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        Orders are put by customers. Only an employee can serve the customers.
+                    </div>
+                </div>
+
+                <div id="panelManager" class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>As the manager of the bar you can:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>Set the price of a pinte of beer</td>
+                                    <td><input id="inputBeerPrice" type="number" placeholder="in usd"/><p id="beerPriceIndicator"></p></td>
+                                    <td><button id="setBeerPrice" type="submit" class="btn btn-primary">Set Beer Price</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Set the price of a glass of wine</td>
+                                    <td><input id="inputWinePrice" type="number" placeholder="in usd"/><p id="winePriceIndicator"></p></td>
+                                    <td><button id="setWinePrice" type="submit" class="btn btn-primary">Set Wine Price</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Set the salary of the employees</td>
+                                    <td><input id="inputSalaryRatio" type="number" placeholder="between 0 and 100"/><p id="salaryRatioIndicator"></p></td>
+                                    <td><button id="setSalaryRatio" type="submit" class="btn btn-primary">set Salary Ratio</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Set the dividends of the co-owners</td>
+                                    <td><input id="inputDividendRatio" type="number" placeholder="between 0 and 100"/><p id="dividendRatioIndicator"></p></td>
+                                    <td><button id="setDividendRatio" type="submit" class="btn btn-primary">set Dividend Ratio</button></td>
+                                </tr>
+                                <!--<tr>
+                                    <td>Fire an employee</td>
+                                    <td><input id="" type="number" placeholder="todo"/></td>
+                                    <td><button id="" type="submit" class="btn btn-primary">Todo</button></td>
+                                </tr>-->
+                            </tbody>
+                        </table>
+                        <hr/
+                        <p><center><i>*Like dividends, salaries are not fixed. Rather it's a percentage of each single sale made by the employee.</i></center></p>
+                    </div>
+                </div>
+
+                <div id="panelCustomer" class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>As a customer of the Hard Fork Cafe, you can:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>Buy a pint of beer</td>
+                                    <td><p id="beerPriceCustomer">xxx eth</p></p></td>
+                                    <td><button id="buyBeer" type="button" class="btn btn-primary">Buy a pint of beer</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Buy a glass of wine</td>
+                                    <td><p id="winePriceCustomer">xxx eth</p></td>
+                                    <td><button id="buyWine" type="button" class="btn btn-primary">Buy a glass of wine</button></td>
+                                </tr>
+                                <tr class="info">
+                                    <td colspan="3"><i>* You have to wait for an employee to accept your order.</i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr class="active">
+                                    <td colspan="3"><b>You can also:</b></td>
+                                </tr>
+                                <tr id="beGovCel">
+                                    <td><b>Endorse the role of the government (only 1 place)</b></td>
+                                    <td></td>
+                                    <td><button id="beGov" class="btn btn-danger" type="button" class="btn btn-primary">Be Government</button></td>
+                                </tr>
+                                <tr id="beOwnerCel">
+                                    <td>Buy 1 share of the bar & become a co-Owner. Only 1 share per person.</td>
+                                    <td><input id="inputOwnerName" type="text" placeholder="Your name"/><p id="textOwnerError"></p></td>
+                                    <td><button id="beOwner" class="btn btn-danger" type="submit" class="btn btn-primary">Be a co-owner</button></td>
+                                </tr>
+                                <tr id="beEmployeeCel">
+                                    <td>Be an employee of the Bar (2 jobs)</td>
+                                    <td><input id="inputEmployeeName" type="text" placeholder="Your name"/><p id="textEmployeeError"></p></td>
+                                    <td><button id="beEmployee" class="btn btn-danger" type="button" class="btn btn-primary">Be an employee</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="panelGovernment" class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>As the government, you can:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr id="">
+                                    <td>Define the taxes on the sales<p id="taxRatioIndicator"></p></td>
+                                    <td><input id="inputTaxRatio" type="number" placeholder="between 0 and 100"/></td>
+                                    <td><button id="setTaxRatio" type="submit" class="btn btn-primary">Set Tax Ratio</button></td>
+                                </tr>
+                                <tr id="">
+                                    <td>Collect the taxes</td>
+                                    <td>xxx tax</td>
+                                    <td><button id="collecTaxes" type="button" class="btn btn-primary">Collect taxes</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><i>*Taxes have a default value set at XX %</i></p>
+                    </div>
+                </div>
+                <div id="panelCoOwner" class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>As a co-owner, you can:</center></h4></div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>Withdraw your profit</li>
+                            <li>Sell your share</li>
+                        </ul>
+                        Button to do
+                    </div>
+                </div>
+                <div id="panelEmployee" class="panel panel-primary">
+                    <div class="panel-heading"><h4><center>As an employee, you can:</center></h4></div>
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Serve the customers<span><i><br/>Nobody to serve at the moment!</i></span></th>
+                                    <td><button id="serveCustomer" type="button" class="btn btn-primary">Serve customer</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Quit your job</td>
+                                    <td><button id="" type="button" class="btn btn-primary">Quit Job</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Withdraw your salary</td>
+                                    <td>(Click Withdraw Profit above)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <ul>
+                            <li>The first customer in queue is being served.</li>
+                            <li>Each time an employee does his job 'in real life' by serving a customer, the money is redistribute to each participant of the Cafe.</li>
+                            <li>When an employee quit his job, he withdraws automatically his salary.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
